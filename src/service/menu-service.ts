@@ -195,6 +195,7 @@ export const generateMenus = async (products: Product[]) => {
   // Wait for all menu creation promises to complete
   await Promise.all(menuPromises);
   console.log("All menus created and inserted.");
+  process.exit(0);
 };
 
 

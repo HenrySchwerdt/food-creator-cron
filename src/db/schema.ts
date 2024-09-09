@@ -36,7 +36,7 @@ import {
   
   export const menu = createTable("menu", {
     id: serial("id").primaryKey(),
-    userId: varchar("user_Id", { length: 256 }),
+    userId: varchar("userId", { length: 256 }),
     mon: json("mon").$type<MenuDay>().notNull(),
     tue: json("tue").$type<MenuDay>().notNull(),
     wen: json("wen").$type<MenuDay>().notNull(),
