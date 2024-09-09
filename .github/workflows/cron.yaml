@@ -26,3 +26,4 @@ jobs:
         run: npm run start
         env:
           POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
