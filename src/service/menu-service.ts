@@ -159,8 +159,16 @@ function createPrompt(user: User): string {
 export const generateMenus = async (products: Product[]) => {
   const openai = new OpenAI();
   const users = await getAllUsers();
+  console.log("found users: ", users.length);
+
+  // Remove all week menus before starting
   await removeAllWeekMenus();
-  for (const user of users) {
+  console.log("All Menus removed");
+
+  // Create menu for each user concurrently
+  const menuPromises = users.map(async (user) => {
+    console.log("Creating menu for user: ", user.id);
+
     const response = await openai.beta.chat.completions.parse({
       model: "gpt-4o-mini",
       messages: [
@@ -176,9 +184,17 @@ export const generateMenus = async (products: Product[]) => {
       ],
       response_format: zodResponseFormat(Menu, "menu"),
     });
+
     const menu = response?.choices?.[0]?.message?.parsed ?? [] as unknown as WeekMenu;
     const weekMenuModel = { ...menu, userId: user.id } as unknown as WeekMenu;
+
+    // Insert menu for this user
     await insertMenu(weekMenuModel);
-  }
+  });
+
+  // Wait for all menu creation promises to complete
+  await Promise.all(menuPromises);
+  console.log("All menus created and inserted.");
 };
+
 
