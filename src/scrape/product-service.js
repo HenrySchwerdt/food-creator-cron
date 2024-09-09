@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { removeAllProducts, insertProduct, batchInsertProducts } from "../repository/productRepository";
+import { removeAllProducts, batchInsertProducts } from "../repository/productRepository";
 
 const urls = [
   "https://www.aldi-sued.de/de/angebote/frischekracher.html",
@@ -176,5 +176,6 @@ function extractProductLidlData() {
 
   return productsData;
 }
+
 
 

@@ -2,6 +2,7 @@
     "scripts": {
         "start": "ts-node src/main.ts"
     },
+    "module": "node",
     "dependencies": {
         "drizzle-orm": "^0.33.0",
         "openai": "^4.58.1",

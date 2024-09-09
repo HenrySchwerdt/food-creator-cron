@@ -1,5 +1,5 @@
-import { generateMenus } from "service/menu-service";
-import { getProducts } from "./service/product-service";
+import { getProducts } from "./scrape/product-service";
+import { generateMenus } from "./service/menu-service";
 
 async function main() {
     console.log("Start scraping products");

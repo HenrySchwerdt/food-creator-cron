@@ -2,13 +2,11 @@
     "compilerOptions": {
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
-        "baseUrl": "src",
         "target": "ES2022",
         "outDir": "dist",
         "sourceMap": true,
         "noImplicitAny": true,
-        "allowJs": true
+        "allowJs": true,
     },
-    "exclude": ["node_modules"],
     "include": ["src/**/*"]
 }
