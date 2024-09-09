@@ -9,21 +9,24 @@ const urls = [
 
 
 export async function getProducts() {
-  const allProducts = [];
-
-  for (let url of urls) {
+  // Map over the URLs and fetch products concurrently
+  const productPromises = urls.map(async (url) => {
     let extractor = extractProductAldiData;
     if (url.includes("lidl")) {
       extractor = extractProductLidlData;
     }
-    const products = await getItemsFromAldi(url, extractor);
-    allProducts.push(...products);
-  }
+    return await getItemsFromAldi(url, extractor); // Return the products for each URL
+  });
+
+  // Wait for all products to be fetched
+  const allProducts = (await Promise.all(productPromises)).flat(); // Flatten the array of arrays
+
   console.log("Remove all products");
   await removeAllProducts();
-  console.log("Insert all products")
+
+  console.log("Insert all products");
   await batchInsertProducts(allProducts);
- 
+
   return allProducts;
 }
 
