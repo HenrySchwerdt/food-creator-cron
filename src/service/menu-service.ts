@@ -3,7 +3,7 @@ import { z } from "zod";
 import { Product, User, WeekMenu } from "../domain/types";
 import { getAllUsers } from "../repository/userRepository";
 import { zodResponseFormat } from "openai/helpers/zod";
-import { insertMenu, removeAllWeekMenus } from "../repository/menuRepository";
+import { insertMenu, removeAllWeekMenus, removeWeekMenuForUser } from "../repository/menuRepository";
 
 const Ingredient = z.object({
   name: z.string(),
@@ -200,4 +200,36 @@ export const generateMenus = async (products: Product[]) => {
   process.exit(0);
 };
 
+export const generateMenusForUser = async (user: User, products: Product[]) => {
+  const openai = new OpenAI();
 
+  // Remove all week menus before starting
+  await removeWeekMenuForUser(user.id);
+  console.log("All Menus removed");
+
+  // Create menu for each user concurrently
+  const response = await openai.beta.chat.completions.parse({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content: createPrompt(user),
+      },
+      {
+        role: "user",
+        content: `Kreiere ein tolles Wochenmenu für diese Woche und achte darauf, dass der Einkaufszettel korrekt ist, damit alles auf einmal eingekauft werden kann und es keine Probleme gibt. 
+                ${user.includeDiscounts ? `Hier sind noch ein paar Rabat Aktionen die bei der Produkt- und Gerichtwahl helfen ${JSON.stringify(products)}` : ""}`,
+      },
+    ],
+    response_format: zodResponseFormat(Menu, "menu"),
+  });
+
+  const menu = response?.choices?.[0]?.message?.parsed ?? [] as unknown as WeekMenu;
+  const weekMenuModel = { ...menu, userId: user.id } as unknown as WeekMenu;
+
+  // Insert menu for this user
+  await insertMenu(weekMenuModel);
+
+  console.log("All menus created and inserted.");
+  process.exit(0);
+}

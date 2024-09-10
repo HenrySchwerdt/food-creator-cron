@@ -1,7 +1,8 @@
 {
     "scripts": {
         "start": "ts-node src/main.ts",
-        "regenerateMenus": "ts-node src/regenerateMenus.ts"
+        "regenerateMenus": "ts-node src/regenerateMenus.ts",
+        "regenerateMenuForUser": "ts-node src/regenerateMenusForUser.ts"
     },
     "module": "node",
     "dependencies": {

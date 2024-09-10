@@ -1,0 +1,31 @@
+name: Regenerate Menus For User
+on:
+  workflow_dispatch:
+    inputs:
+      userId:
+        description: 'userId'
+        required: true
+
+permissions:
+  contents: write
+  id-token: write
+  actions: write
+
+jobs:
+  scrape_and_create_menu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node & Npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Regenerate Menus
+        run: npm run regenerateMenuForUser
+        env:
+          POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          USER_ID: ${{ inputs.userId }}
