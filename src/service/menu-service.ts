@@ -205,7 +205,7 @@ export const generateMenusForUser = async (user: User, products: Product[]) => {
 
   // Remove all week menus before starting
   await removeWeekMenuForUser(user.id);
-  console.log("All Menus removed");
+  console.log("User Menu removed");
 
   // Create menu for each user concurrently
   const response = await openai.beta.chat.completions.parse({
@@ -230,6 +230,6 @@ export const generateMenusForUser = async (user: User, products: Product[]) => {
   // Insert menu for this user
   await insertMenu(weekMenuModel);
 
-  console.log("All menus created and inserted.");
+  console.log("User menu created.");
   process.exit(0);
 }
