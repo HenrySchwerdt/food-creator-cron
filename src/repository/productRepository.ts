@@ -26,6 +26,12 @@ export const batchInsertProducts = async (productList: Product[]): Promise<void>
     .execute();
 };
 
+export const getAllProducts = async (): Promise<Product[]> => {
+  const product: Product[] = await db.query.products.findMany() as Product[];
+  return product;
+};
+
+
 export const removeAllProducts = async (): Promise<void> => {
   // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(products).execute();
