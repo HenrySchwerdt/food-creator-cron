@@ -1,4 +1,4 @@
-name: Cron
+name: Regenerate Menus
 on:
   workflow_dispatch:
 
