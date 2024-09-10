@@ -156,7 +156,7 @@ function createPrompt(user: User): string {
   prompt += `Auf der Einkaufsliste soll jede Zutat vorkommen, die für die Zubereitung der Gerichte benötigt wird. Keine Sammelbegriffe,
    wie Sonsitges oder etwas in der Art. Alles muss drauf stehen, dass in den Rezepten verwendet wird und jede Zutat soll nur einmal drauf
    stehen, wenn sie öfter benutzt wird muss die Menge auf der List angepasst werden. Außerdem sollte bei der Portionsgröße pro Person pro Gericht darauf geachtet werden,
-    dass es genug Nährstoffe enthält um die gesamten Personen satt zu machen.`;
+    dass es genug Nährstoffe enthält um die gesamten Personen satt zu machen. Achte darauf, dass auch Beilagen für die Gerichte dabei sind, welche sonst keine hätten. Sonst sind zu wenige Kohlenhydrate in den Gerichten.`;
   return prompt;
 }
 
